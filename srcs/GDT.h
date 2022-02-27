@@ -1,9 +1,9 @@
 #pragma once
 #include "kernel.h"
 
-#define GET_LOW(x)       ((x) & 0xFF)
-#define GET_MID(x)       (((x) & 0xF00) >> 16)
-#define GET_HIGH(x)      (((x) & 0xF000) >> 24)
+#define GET_LOW(x)       ((x) & 0xFFFF)
+#define GET_MID(x)       (((x >> 16) & 0xFF))
+#define GET_HIGH(x)      (((x >> 24) & 0xFF))
 
 #define SEG_DESCTYPE(x)  ((x) << 0x04) // Descriptor type (0 for system, 1 for code/data)
 #define SEG_PRES(x)      ((x) << 0x07) // Present
@@ -46,7 +46,7 @@
                      SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
                      SEG_PRIV(3)     | SEG_DATA_RDWR
 
-#define GDT_BASE 0x00000800
+#define GDT_BASE 0x00000000
 #define GDT_STEP 0x400000
 
 struct GDT_struct {
@@ -56,14 +56,14 @@ struct GDT_struct {
   uint8 acess;
   uint8 granularity;
   uint8 highbase;
-};
+} __attribute__((packed));
 
 struct GDTR_struct{
   uint16 limit;
   uint32 base;
-};
+} __attribute__((packed));
 
-extern struct GDT_struct gdt[7];
+extern struct GDT_struct gdt[5];
 extern struct GDTR_struct gdtr;
 
 void make_gdt(void);

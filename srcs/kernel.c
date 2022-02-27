@@ -73,9 +73,9 @@ void input()
       print_next_line();
     else{
       if (keycode == KEY_LEFT)
-        switch_to_screen(curscreen == 0 ? 3 : curscreen - 1);
+        switch_to_screen(curscreen == 0 ? 2 : curscreen - 1);
       else if (keycode == KEY_RIGHT)
-        switch_to_screen(curscreen == 3 ? 0 : curscreen + 1);
+        switch_to_screen(curscreen == 2 ? 0 : curscreen + 1);
       else if (keycode == KEY_ENTER){
         print_string(screens[curscreen].inp_buf); 
         bzero(screens[curscreen].inp_buf, screens[curscreen].inp_ind);
@@ -106,7 +106,6 @@ void kernel_entry(void)
   screens[2].back_color = WHITE;
   init_vga(WHITE, BLACK); 
   print_string("42");
-  dump_stack();
   while (1)
     input();
 }

@@ -2,16 +2,16 @@ bits 32
 
 section .text
 global loadgdt
-
-gdtr	DW 0
-	DD 0
-	
+extern gdtr
 
 loadgdt:
-	mov eax, [esp + 4]
-	mov [gdtr + 2], eax
-	mov ax, [esp + 8]
-	dec ax
-	mov [gdtr], ax
-	lgdt [gdtr]
-	ret
+      lgdt [gdtr]
+      mov ax, 0x10
+      mov ds, ax
+      mov es, ax
+      mov fs, ax
+      mov gs, ax
+      mov ss, ax
+      jmp 0x08:flush2
+flush2:
+      ret
